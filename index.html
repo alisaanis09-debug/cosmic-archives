@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Archive</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: black;
+    color: white;
+    overflow-x: hidden;
+  }
+
+  /* Звёзды */
+  body::before {
+    content: '';
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: transparent url('https://i.postimg.cc/0yT8n4h7/stars.png') repeat;
+    background-size: contain;
+    animation: starMove 200s linear infinite;
+  }
+
+  @keyframes starMove {
+    0% {background-position: 0 0;}
+    100% {background-position: -2000px -2000px;}
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2em;
+    color: #FFD700;
+  }
+
+  .planets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 30px;
+  }
+
+  .planet {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px white;
+  }
+
+  .planet:hover {
+    box-shadow: 0 0 20px #00ffff;
+    transform: scale(1.2);
+  }
+
+  /* Карточка подкаста */
+  .card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10,10,10,0.95);
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    max-width: 90%;
+    width: 400px;
+    text-align: center;
+  }
+
+  .card h2 {
+    margin-top: 0;
+    color: #FF4500;
+  }
+
+  .card button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background: #00ffff;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🌌 Cosmic Archive</h1>
+
+<div class="planets">
+  <div class="planet" data-planet="mercury" style="background: gray;">☿</div>
+  <div class="planet" data-planet="venus" style="background: orange;">♀</div>
+  <div class="planet" data-planet="earth" style="background: blue;">🌍</div>
+  <div class="planet" data-planet="mars" style="background: red;">♂</div>
+  <div class="planet" data-planet="jupiter" style="background: #d2b48c;">♃</div>
+  <div class="planet" data-planet="saturn" style="background: #f5deb3;">♄</div>
+  <div class="planet" data-planet="uranus" style="background: #00ffff;">♅</div>
+  <div class="planet" data-planet="neptune" style="background: #0000ff;">♆</div>
+</div>
+
+<!-- Карточка подкаста -->
+<div class="card" id="card">
+  <h2 id="card-title">Планета</h2>
+  <p id="card-text">Краткий текст подкаста...</p>
+  <audio id="card-audio" controls>
+    <source src="" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+  <br>
+  <button id="open-channel">Перейти в канал</button>
+</div>
+
+<script>
+const planets = document.querySelectorAll('.planet');
+const card = document.getElementById('card');
+const title = document.getElementById('card-title');
+const text = document.getElementById('card-text');
+const audio = document.getElementById('card-audio');
+const openChannel = document.getElementById('open-channel');
+
+const planetData = {
+  mercury: {title:'Меркурий', text:'Краткий текст подкаста о Меркурии', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  venus: {title:'Венера', text:'Краткий текст подкаста о Венере', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  earth: {title:'Земля', text:'Краткий текст подкаста о Земле', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  mars: {title:'Марс', text:'Краткий текст подкаста о Марсе', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  jupiter: {title:'Юпитер', text:'Краткий текст подкаста о Юпитере', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  saturn: {title:'Сатурн', text:'Краткий текст подкаста о Сатурне', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  uranus: {title:'Уран', text:'Краткий текст подкаста о Уране', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'},
+  neptune: {title:'Нептун', text:'Краткий текст подкаста о Нептуне', audio:'', link:'ССЫЛКА_НА_ПОДКАСТ'}
+};
+
+planets.forEach(p => {
+  p.addEventListener('click', () => {
+    const data = planetData[p.dataset.planet];
+    title.textContent = data.title;
+    text.textContent = data.text;
+    audio.src = data.audio;
+    openChannel.onclick = () => { window.open(data.link,'_blank'); };
+    card.style.display = 'block';
+  });
+});
+
+card.addEventListener('click', e => {
+  if(e.target === card) card.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
